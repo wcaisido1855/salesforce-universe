@@ -1,0 +1,30 @@
+global class CallYahooQuotes {
+	public static HttpResponse getQuotes() {   
+  
+		Http h = new Http();
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://yfapi.net/v8/finance/chart/TSLA?comparisons=MSFT%2C%5EVIX&range=1mo&region=US&interval=1d&lang=en&events=div%2Csplit');
+        req.setMethod('GET');
+        req.setHeader('x-api-Key', 'redacted');
+		HttpResponse res = h.send(req);
+        System.debug(res);
+		System.debug(res.getBody());
+        
+        //String s = '{"chart":{"result":[{"meta":{"currency":"USD","symbol":"TSLA","exchangeName":"NMS","instrumentType":"EQUITY","firstTradeDate":1277818200,"regularMarketTime":1648065603,"gmtoffset":-14400,"timezone":"EDT","exchangeTimezoneName":"America/New_York","regularMarketPrice":999.11,"chartPreviousClose":840.23,"priceHint":2,"currentTradingPeriod":{"pre":{"timezone":"EDT","end":1648042200,"start":1648022400,"gmtoffset":-14400},"regular":{"timezone":"EDT","end":1648065600,"start":1648042200,"gmtoffset":-14400},"post":{"timezone":"EDT","end":1648080000,"start":1648065600,"gmtoffset":-14400}},"dataGranularity":"1d","range":"5d","validRanges":["1d","5d","1mo","3mo","6mo","1y","2y","5y","10y","ytd","max"]},"timestamp":[1647523800,1647610200,1647869400,1647955800,1648065603],"indicators":{"quote":[{"low":[825.719970703125,867.3900146484375,907.0900268554688,921.75,976.75],"open":[830.989990234375,874.489990234375,914.97998046875,930.0,979.9400024414062],"high":[875.0,907.8499755859375,942.8499755859375,997.8599853515625,1040.699951171875],"volume":[22194300,33408500,27327200,35289500,39820160],"close":[871.5999755859375,905.3900146484375,921.1599731445312,993.97998046875,999.1099853515625]}],"adjclose":[{"adjclose":[871.5999755859375,905.3900146484375,921.1599731445312,993.97998046875,999.1099853515625]}]}}],"error":null}}';
+        
+        String stockData = res.getBody();
+        Map<String, Object> j = (Map<String, Object>)JSON.deserializeUntyped(stockData);
+        Map<String, Object> chart = (Map<String, Object>)j.get('chart');
+        List<Object> results = (List<Object>)chart.get('result');
+        Map<String, Object> result = (Map<String, Object>)results[0];
+        Map<String, Object> meta = (Map<String, Object>)result.get('meta');
+        Integer c = (Integer)meta.get('firstTradeDate');
+        Decimal price = (decimal)meta.get('regularMarketPrice');
+        String symbol = (String)meta.get('symbol');
+        System.assertEquals(1277818200, c);
+        
+		System.debug('The Stock Price for '+ symbol +' is: ' + price);
+        //Map<String, Object> results = (Map<String,Object>)JSON.deserializeUntyped(res.getBody());      
+        return res;
+	}
+}
