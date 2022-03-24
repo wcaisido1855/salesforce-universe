@@ -8,7 +8,7 @@ Public class AutoConvertLeads
             Database.LeadConvert Leadconvert = new Database.LeadConvert();    
             Leadconvert.setLeadId(currentlead);                               
             Leadconvert.setConvertedStatus(CLeadStatus.MasterLabel);             
-            Leadconvert.setDoNotCreateOpportunity(TRUE); //Remove this line if you want to create an opportunity from Lead Conversion  
+            //Leadconvert.setDoNotCreateOpportunity(TRUE); //Remove this line if you want to create an opportunity from Lead Conversion  
             MassLeadconvert.add(Leadconvert);    
         }                  
         if (!MassLeadconvert.isEmpty())
