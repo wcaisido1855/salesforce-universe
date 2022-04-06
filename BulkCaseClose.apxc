@@ -1,0 +1,10 @@
+public class BulkCaseClose {
+	@InvocableMethod()
+    public static void updateCaseStatus(List<Id> CaseIds){
+        List<Case> cases = [SELECT Id, Status FROM Case WHERE Case.Id in : CaseIds];
+            for(Case c: cases){
+                c.status = 'Closed';
+            }
+        	update cases;
+    }
+}
