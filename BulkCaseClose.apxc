@@ -1,3 +1,5 @@
+// Invocable Method that takes a List of Case Id's and for each Case Id, Updates the value of the Case's Status to: 'Closed'
+
 public class BulkCaseClose {
 	@InvocableMethod()
     public static void updateCaseStatus(List<Id> CaseIds){
