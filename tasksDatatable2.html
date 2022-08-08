@@ -1,0 +1,21 @@
+<!-- sldsValidatorIgnore -->
+<template>
+	<lightning-card title="Tasks" icon-name="standard:task"> <br/>
+		<div style="width: auto;">
+			<template if:true={data}>
+				<lightning-datatable 
+                    data={data} 
+                    columns={columns} 
+                    key-field="id" 
+                    hide-checkbox-column="true"
+                    onrowaction={handleRowActions}>
+                </lightning-datatable>
+			</template>
+		</div>
+
+		<!-- Spinner -->
+		<div if:true={showLoadingSpinner}>
+			<lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+		</div>
+	</lightning-card>
+ </template>
